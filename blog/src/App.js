@@ -34,6 +34,7 @@ function App() {
     "파이썬독학",
   ]);
   let [따봉, 따봉변경] = useState(0);
+  let [modal, setModal] = useState(false);
   function 함수() {
     //긴 코드를 하나로 묶어주는 문법.
     console.log(1);
@@ -92,7 +93,7 @@ function App() {
       <div className="list">
         <h4
           onClick={() => {
-            setModal(true);
+            setModal(!modal);
           }}
         >
           {글제목[2]}
@@ -100,7 +101,7 @@ function App() {
         <p>2월 17일 발행</p>
       </div>
       {/* 모달 */}
-      {/* {modal == true ? <Modal /> : null} */}
+      {modal == true ? <Modal></Modal> : null}
     </div>
     // <div></div> //병렬로 코드 나열 금지
   );
