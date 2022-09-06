@@ -6,7 +6,11 @@ import { useState } from "react";
 
 function App() {
   let post = "강남 우동 맛집";
-  let [글제목, b] = useState(["남자 코트 추천", "강남 우동맛집", "파이썬독학"]);
+  let [글제목, 글제목변경] = useState([
+    "남자 코트 추천",
+    "강남 우동맛집",
+    "파이썬독학",
+  ]);
   let [따봉, 따봉변경] = useState(0);
   function 따봉변경함수() {
     따봉변경(따봉 + 1);
@@ -30,7 +34,9 @@ function App() {
           {따봉}
           <button
             onClick={() => {
-              b(["여자 코트 추천", "강남 우동맛집", "파이썬독학"]);
+              let copy = [...글제목];
+              copy[0] = "여자코트 추천";
+              글제목변경(copy);
             }}
           >
             버튼클릭
