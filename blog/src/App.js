@@ -60,7 +60,13 @@ function App() {
           </div>
         );
       })}
-      {modal == true ? <Modal 글제목={글제목} /> : null}
+      {modal == true ? (
+        <Modal
+          글제목={글제목}
+          제목수정="여자코트 추천"
+          글제목변경={글제목변경}
+        />
+      ) : null}
     </div>
   );
 }
@@ -71,6 +77,15 @@ function Modal(props) {
       <h4>{props.글제목[0]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
+      <button
+        onClick={() => {
+          let copy = [...props.글제목];
+          copy[0] = props.제목수정;
+          props.글제목변경(copy);
+        }}
+      >
+        글수정
+      </button>
     </div>
   );
 }
