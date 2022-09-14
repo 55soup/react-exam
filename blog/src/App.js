@@ -23,6 +23,7 @@ function App() {
         <h4>
           {글제목[0]}
           <span>👍</span>
+          {따봉[0]}
           <button>버튼클릭</button>
         </h4>
         <p>2월 17일 발행</p>
@@ -37,35 +38,40 @@ function App() {
       </div> */}
       {글제목.map(function (a, i) {
         return (
-          <div className="list">
-            <h4>
-              {a}{" "}
+          <div className="list" key={i}>
+            <h4
+              onClick={() => {
+                setModal(true);
+              }}
+            >
+              {a}
               <span
                 onClick={() => {
-                  따봉변경(따봉 + 1);
+                  let copy = [...따봉];
+                  copy[i] = 따봉[i] + 1;
+                  따봉변경(copy);
                 }}
               >
                 👍
-              </span>{" "}
-              {따봉}
+              </span>
+              {따봉[i]}
             </h4>
             <p>2월 17일 발행</p>
           </div>
         );
       })}
+      {modal == true ? <Modal 글제목={글제목} /> : null}
     </div>
   );
 }
 
-const Modal = () => {
+function Modal(props) {
   return (
-    <>
-      <div className="modal">
-        <h4>제목</h4>
-        <p>날짜</p>
-        <p>상세내용</p>
-      </div>
-    </>
+    <div className="modal">
+      <h4>{props.글제목[0]}</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+    </div>
   );
-};
+}
 export default App;
