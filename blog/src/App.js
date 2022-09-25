@@ -40,24 +40,12 @@ function App() {
       {글제목.map(function (a, i) {
         return (
           <div className="list" key={i}>
-            <h4
-              onClick={() => {
-                setModal(true);
-                setTitle(i);
-              }}
-            >
-              {a}
-              <span
-                onClick={() => {
+            <h4 onClick={() => {setModal(true); setTitle(i);}}>
+              {글제목[i]}
+              <span onClick={() => { 
                   let copy = [...따봉];
                   copy[i] = 따봉[i] + 1;
-                  따봉변경(copy);
-                }}
-              >
-                👍
-              </span>
-              {따봉[i]}
-            </h4>
+                  따봉변경(copy); }}>👍</span>{따봉[i]}</h4>
             <p>2월 17일 발행</p>
           </div>
         );
@@ -68,6 +56,7 @@ function App() {
 }
 
 function Modal(props) {
+  // let[title, setTitle] = useState(0);
   return (
     <div className="modal">
       <h4>{props.글제목[props.title]}</h4>
