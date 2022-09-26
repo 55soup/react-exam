@@ -14,6 +14,7 @@ function App() {
   let [따봉, 따봉변경] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
+  let [입력값, 입력값변경] = useState('');
 
   return (
     <div className="App">
@@ -42,7 +43,8 @@ function App() {
           <div className="list" key={i}>
             <h4 onClick={() => {setModal(true); setTitle(i);}}>
               {글제목[i]}
-              <span onClick={() => { 
+              <span onClick={(e) => { 
+                  e.stopPropagation(); /** 상위html로 퍼지는 이벤트 버블링 막기. */
                   let copy = [...따봉];
                   copy[i] = 따봉[i] + 1;
                   따봉변경(copy); }}>👍</span>{따봉[i]}</h4>
@@ -50,10 +52,16 @@ function App() {
           </div>
         );
       })}
+      <input onChange = {(e)=>{
+        입력값변경(e.target.value)
+        console.log(입력값)
+        }}/>
+      
       {modal == true ? <Modal 글제목={글제목} title={title} /> : null}
     </div>
   );
 }
+
 
 function Modal(props) {
   // let[title, setTitle] = useState(0);
