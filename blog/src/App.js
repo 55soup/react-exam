@@ -49,16 +49,19 @@ function App() {
                   copy[i] = 따봉[i] + 1;
                   따봉변경(copy); }}>👍</span>{따봉[i]}</h4>
             <p>2월 17일 발행</p>
-            <button onClick={()=>{글제목변경()}}>삭제</button>
+            <button onClick={(e)=>{
+              let copy = [...글제목];
+              copy.splice(i,1); /** splice(시작점, 지울개수)*/ 
+              글제목변경(copy);
+            }}>삭제</button>
           </div>
         );
       })}
       <input onChange = {(e)=>{
         입력값변경(e.target.value)
-        console.log(입력값)
         }}/>
       <button onClick={()=>{
-        글제목변경([입력값, ...글제목])
+        글제목변경([...글제목, 입력값])
       }}>추가</button>
       {modal == true ? <Modal 글제목={글제목} title={title} /> : null}
     </div>
