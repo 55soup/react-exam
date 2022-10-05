@@ -51,7 +51,7 @@ function App() {
             <p>2월 17일 발행</p>
             <button onClick={()=>{
               let copy = [...글제목];
-              copy.splice(i,1); /** splice(시작점, 지울개수)*/ 
+              copy.splice(i,1); /** splice(시작점, 지울개수)*/
               글제목변경(copy)
             }}>삭제</button>
           </div>
@@ -61,8 +61,15 @@ function App() {
         입력값변경(e.target.value)
         }}/>
       <button onClick={()=>{
-        글제목변경([...글제목, 입력값])
-        따봉변경([...따봉, 0])
+        // 입력값이 있으면 글제목으로 들어가기
+        { if (입력값 != ""){
+            글제목변경([...글제목, 입력값])
+            따봉변경([...따봉, 0]) 
+          }else{
+            alert("input에 입력하세요!")
+          }
+        }
+        
       }}>추가</button>
       {modal == true ? <Modal 글제목={글제목} title={title} /> : null}
     </div>
