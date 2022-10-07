@@ -69,7 +69,8 @@ function App() {
             alert("input에 입력하세요!")
           }
         }
-        
+        // 버튼을 누르면 input창 비우기
+        input.value(null)
       }}>추가</button>
       {modal == true ? <Modal 글제목={글제목} title={title} /> : null}
     </div>
