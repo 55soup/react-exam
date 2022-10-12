@@ -12,6 +12,7 @@ function App() {
     "파이썬독학",
   ]);
   let [따봉, 따봉변경] = useState([0, 0, 0]);
+  let [날짜, 날짜변경] = useState(new Date());
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
   let [입력값, 입력값변경] = useState('');
@@ -48,7 +49,7 @@ function App() {
                   let copy = [...따봉];
                   copy[i] = 따봉[i] + 1;
                   따봉변경(copy); }}>👍</span>{따봉[i]}</h4>
-            <p>2월 17일 발행</p>
+            <p>{날짜.getMonth()+1}월 {날짜.getDate()}일 발행</p>
             <button onClick={()=>{
               let copy = [...글제목];
               copy.splice(i,1); /** splice(시작점, 지울개수)*/
@@ -64,12 +65,14 @@ function App() {
         // 입력값이 있으면 글제목으로 들어가기
         { if (입력값 != ""){
             글제목변경([...글제목, 입력값])
-            따봉변경([...따봉, 0]) 
+            따봉변경([...따봉, 0])
+            let today = new Date();
+            날짜변경(today);
           }else{
             alert("input에 입력하세요!")
           }
         }
-        // 버튼을 누르면 input창 비우기
+        // 버튼을 누르면 input창 비우기 작동x
         input.value(null)
       }}>추가</button>
       {modal == true ? <Modal 글제목={글제목} title={title} /> : null}
