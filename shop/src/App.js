@@ -3,6 +3,7 @@ import { Button, Navbar, Container, Nav } from 'react-bootstrap'
 import logo from './logo.svg';
 import bg from './img/bg.png';
 import './App.css';
+import {a,b} from './data.js'
 
 function App() {
   
