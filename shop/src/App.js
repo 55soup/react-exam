@@ -1,9 +1,13 @@
+import {useState} from "react";
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'
 import logo from './logo.svg';
 import bg from './img/bg.png';
 import './App.css';
 
 function App() {
+  
+  let [shoes] = useState()
+
   return (
     <div className="App">
         <Navbar bg="light" variant="light">
