@@ -1,12 +1,13 @@
+/* eslint-disable */
 import {useState} from "react";
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'
-import logo from './logo.svg';
 import bg from './img/bg.png';
 import './App.css';
+import data from './data.js'
 
 function App() {
   
-  let [shoes] = useState()
+  let [shoes] = useState(data)
 
   return (
     <div className="App">
