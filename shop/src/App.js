@@ -4,28 +4,38 @@ import { Button, Navbar, Container, Nav } from "react-bootstrap";
 import bg from "./img/bg.png";
 import "./App.css";
 import data from "./data.js";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import Detail from "./routes/Detail"
 
 function App() {
   let [shoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className="App">
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="#home">ShoesMarket</Navbar.Brand>
+          <Navbar.Brand onClick={()=>{navigate("/")}}>ShoesMarket</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            {/* navigate(-1) : 뒤로 한번 감 */}
+            <Nav.Link onClick={()=>{navigate("/")}}>홈</Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/detail")}}>상세페이지</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <Link to="/">홈</Link>
-      <Link to="/detail">상세페이지</Link>
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />}/>
         <Route path="/detail" element={<Detail />}/>
+        <Route path="/about" element={<About />}>
+          {/* 경로: /about/member */}
+          <Route path="member" element={<div>멤버들</div>} /> 
+          <Route path="location" element={<About />} />
+        </Route>
+        <Route path="/event" element={<><h1>오늘의 이벤트</h1> <Outlet></Outlet></>}>
+          <Route path="one" element={<div>첫 주문 양배추즙 서비스</div>} />
+          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+        </Route>
+        <Route path="*" element={<div>404 존재하지 않음</div>}/>
       </Routes>
     </div>
   );
@@ -61,22 +71,13 @@ function Main({shoes}){
   );
 }
 
-function Detail(){
+function About(){
   return(
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
-        </div>
-        <div className="col-md-6">
-          <h4 className="pt-5">상품명</h4>
-          <p>상품설명</p>
-          <p>120000원</p>
-          <button className="btn btn-danger">주문하기</button> 
-        </div>
-      </div>
-    </div> 
+    <div>
+      <h4>회사 정보임</h4>
+      {/* Outlet: nested routes를 보여주는 자리 */}
+      <Outlet></Outlet>
+    </div>
   );
 }
-
 export default App;
