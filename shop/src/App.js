@@ -8,7 +8,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from "./routes/Detail"
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -25,7 +25,7 @@ function App() {
       </Navbar>
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />}/>
-        <Route path="/detail" element={<Detail />}/>
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />}/>
         <Route path="/about" element={<About />}>
           {/* 경로: /about/member */}
           <Route path="member" element={<div>멤버들</div>} /> 
@@ -42,8 +42,10 @@ function App() {
 }
 
 function Shoes({shoes}){
+  let navigate = useNavigate();
+
   return(
-    <div className="col-md-4">
+    <div className="col-md-4" onClick={()=>{navigate(`/detail/${shoes.id}`)}}>
       <img src={`https://codingapple1.github.io/shop/shoes${shoes.id+1}.jpg`} width="80%" />
       <h4>{shoes.title}</h4>
       <p>{shoes.content}</p>
@@ -60,6 +62,7 @@ function Main({shoes}){
       </div>
       <div className="main-bg">
         <div className="row">
+          <button>가나다순 정렬</button>
           {shoes.map((a)=>{
             return(
               <Shoes shoes={a} />
