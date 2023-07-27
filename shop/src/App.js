@@ -1,14 +1,16 @@
 /* eslint-disable */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Navbar, Container, Nav } from "react-bootstrap";
+import axios from "axios";
 import bg from "./img/bg.png";
 import "./App.css";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import Detail from "./routes/Detail"
+import Detail from "./routes/Detail";
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [click, setClick] = useState(0);
   let navigate = useNavigate();
 
   return (
@@ -37,6 +39,18 @@ function App() {
         </Route>
         <Route path="*" element={<div>404 존재하지 않음</div>}/>
       </Routes>
+      <button onClick={()=>{
+        setClick(click+1);
+        console.log(click);
+        if(click > 2) alert("상품이 더 없습니다.");
+        else{
+          axios.get(`https://codingapple1.github.io/shop/data${click+2}.json`)
+          .then((result) =>{
+            let copy = [...shoes, ...result.data]
+              setShoes(copy);
+          }).catch((error) => console.log(error))
+        }
+      }}>버튼</button>
     </div>
   );
 }

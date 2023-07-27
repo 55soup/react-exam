@@ -43,7 +43,9 @@ function Detail(props){
   },[]) // []: mount시 1회만 실행됨 /[]안에 state가 변경될 때 실행됨.
 
   useEffect(() => {
-    if(isNaN(value)) alert("숫자를 입력하세요");
+    if(isNaN(value)) {
+      alert("숫자를 입력하세요");
+    }
   }, [value])
 
   return(
@@ -56,7 +58,7 @@ function Detail(props){
       <div className="row">
         {count}
         <button onClick={()=>{ setCount(count+1) }}>버튼</button>
-        <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
+        <input onChange={(e)=>{setValue(e.target.value)}}/>
         <div className="col-md-6">
           <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
         </div>
