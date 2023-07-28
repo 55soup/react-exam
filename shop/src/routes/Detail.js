@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 //* 옛날 hooks 사용방법
@@ -12,8 +13,9 @@ function Detail(props){
   let {id} = useParams();
   let newShoes = props.shoes.filter(shoe=>shoe.id == id);
   let [count, setCount] = useState(0);
-  let [isSale, setIsSale] = useState(true);
-  let [value, setValue] = useState();
+  let [isSale, setIsSale] = useState(true); //세일 여부
+  let [value, setValue] = useState(); //input 내용
+  let [tab, setTab] = useState(1); //tab 숫자
 
   // html렌더링이 후에 동작함.
 
@@ -42,11 +44,11 @@ function Detail(props){
     }
   },[]) // []: mount시 1회만 실행됨 /[]안에 state가 변경될 때 실행됨.
 
-  useEffect(() => {
-    if(isNaN(value)) {
-      alert("숫자를 입력하세요");
-    }
-  }, [value])
+  // useEffect(() => {
+  //   if(isNaN(value)) {
+  //     alert("숫자를 입력하세요");
+  //   }
+  // }, [value])
 
   return(
     <div className="container">
@@ -69,8 +71,32 @@ function Detail(props){
           <button className="btn btn-danger">주문하기</button> 
         </div>
       </div>
+      <Nav variant="tabs"  defaultActiveKey="link0">
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(tab=0)}} eventKey="link0">버튼0</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(tab=1)}} eventKey="link1">버튼1</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(tab=2)}} eventKey="link2">버튼2</Nav.Link>
+      </Nav.Item>
+      </Nav>
+      <TabContent tab={tab}/>
     </div> 
   );
+}
+
+function TabContent({tab}) {
+  // if (tab === 0){
+  //   return <div>내용0</div>
+  // }else if (tab === 1){
+  //   return <div>내용1</div>
+  // }else if (tab === 2){
+  //   return <div>내용2</div>
+  // }
+
+  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
 }
 
 export default Detail;

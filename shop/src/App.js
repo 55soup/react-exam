@@ -40,6 +40,7 @@ function App() {
         <Route path="*" element={<div>404 존재하지 않음</div>}/>
       </Routes>
       <button onClick={()=>{
+        // 로딩중 UI 띄우기
         setClick(click+1);
         console.log(click);
         if(click > 2) alert("상품이 더 없습니다.");
@@ -48,7 +49,11 @@ function App() {
           .then((result) =>{
             let copy = [...shoes, ...result.data]
               setShoes(copy);
+              // 로딩중 UI 숨기기
           }).catch((error) => console.log(error))
+
+          // 둘 다 요청이 끝났을 때
+          // Promise.all( [axios.get('URL1'), axios.get('URL2')] )
         }
       }}>버튼</button>
     </div>
