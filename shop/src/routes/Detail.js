@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { Context } from "./../App.js"
 
 //* 옛날 hooks 사용방법
 // class Detail2 extends React.Component {
@@ -10,6 +11,8 @@ import { useParams } from "react-router-dom";
 // }
 
 function Detail(props){
+  let {stock, shoes} = useContext(Context);
+
   let {id} = useParams();
   let newShoes = props.shoes.filter(shoe=>shoe.id == id);
   let [count, setCount] = useState(0);
@@ -103,6 +106,7 @@ function TabContent({tab}) {
   // }
 
   let [fade, setFade] = useState('');
+  let { stock } = useContext(Context);
 
   useEffect(()=>{
     setTimeout(()=>{setFade('end')},100)
