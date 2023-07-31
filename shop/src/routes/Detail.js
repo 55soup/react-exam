@@ -14,8 +14,16 @@ function Detail(props){
   let newShoes = props.shoes.filter(shoe=>shoe.id == id);
   let [count, setCount] = useState(0);
   let [isSale, setIsSale] = useState(true); //세일 여부
-  let [value, setValue] = useState(); //input 내용
+  let [num, setNum] = useState(''); //input 내용
   let [tab, setTab] = useState(1); //tab 숫자
+  let [fade2, setFade2] = useState(''); // detail 컴포넌트 fade 애니메이션
+
+  useEffect(()=>{
+    setTimeout(()=>{setFade2('end')},100)
+    return ()=>{
+      setFade2('');
+    }
+  }, [])
 
   // html렌더링이 후에 동작함.
 
@@ -44,23 +52,21 @@ function Detail(props){
     }
   },[]) // []: mount시 1회만 실행됨 /[]안에 state가 변경될 때 실행됨.
 
-  // useEffect(() => {
-  //   if(isNaN(value)) {
-  //     alert("숫자를 입력하세요");
-  //   }
-  // }, [value])
+  useEffect(() => {
+    if(isNaN(num)) {
+      alert("숫자를 입력하세요");
+    }
+  }, [num])
 
   return(
-    <div className="container">
+    <div className={`container start ${fade2}`}>
       { isSale && 
         <div className="alert alert-warning">
           2초이내 구매시 할인
         </div>
       }
       <div className="row">
-        {count}
-        <button onClick={()=>{ setCount(count+1) }}>버튼</button>
-        <input onChange={(e)=>{setValue(e.target.value)}}/>
+        <input onChange={(e)=>{setNum(e.target.value)}}/>
         <div className="col-md-6">
           <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
         </div>
@@ -83,7 +89,7 @@ function Detail(props){
       </Nav.Item>
       </Nav>
       <TabContent tab={tab}/>
-    </div> 
+    </div>
   );
 }
 
@@ -96,7 +102,19 @@ function TabContent({tab}) {
   //   return <div>내용2</div>
   // }
 
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
+  let [fade, setFade] = useState('');
+
+  useEffect(()=>{
+    setTimeout(()=>{setFade('end')},100)
+    // setFade('end') // automatic batching: 마지막에 한번만 state변경이 됨.
+    return ()=>{
+      setFade('');
+    }
+  }, [tab])
+
+  return (<div className={`start ${fade}`}>
+    {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+  </div>)
 }
 
 export default Detail;
