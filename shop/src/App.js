@@ -7,6 +7,7 @@ import "./App.css";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from "./routes/Detail";
+import Cart from "./routes/Cart"
 
 export let Context = createContext(); // 전역 변수 관리, 보관함
 
@@ -35,6 +36,7 @@ function App() {
             <Detail shoes={shoes} />
           </Context.Provider>
         }/>
+        <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />}>
           {/* 경로: /about/member */}
           <Route path="member" element={<div>멤버들</div>} /> 
