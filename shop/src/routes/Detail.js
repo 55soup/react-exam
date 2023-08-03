@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Context } from "./../App.js"
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../store.js";
 
 //* 옛날 hooks 사용방법
 // class Detail2 extends React.Component {
@@ -14,12 +16,15 @@ function Detail(props){
   let {stock, shoes} = useContext(Context);
 
   let {id} = useParams();
-  let newShoes = props.shoes.filter(shoe=>shoe.id == id);
+  let newShoes = shoes.filter(shoe=>shoe.id == id)[0];
   let [count, setCount] = useState(0);
   let [isSale, setIsSale] = useState(true); //세일 여부
   let [num, setNum] = useState(''); //input 내용
   let [tab, setTab] = useState(1); //tab 숫자
   let [fade2, setFade2] = useState(''); // detail 컴포넌트 fade 애니메이션
+
+  let state = useSelector( state => state ) // redux state 가져오기
+  let dispatch = useDispatch();
 
   useEffect(()=>{
     setTimeout(()=>{setFade2('end')},100)
@@ -74,10 +79,12 @@ function Detail(props){
           <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
         </div>
         <div className="col-md-6">
-          <h4 className="pt-5">{newShoes[0].title}</h4>
-          <p>{newShoes[0].content}</p>
-          <p>{newShoes[0].price}원</p>
-          <button className="btn btn-danger">주문하기</button> 
+          <h4 className="pt-5">{newShoes.title}</h4>
+          <p>{newShoes.content}</p>
+          <p>{newShoes.price}원</p>
+          <button className="btn btn-danger" onClick={()=>{
+            dispatch(addProduct({id : newShoes.id, name : newShoes.title, count : 1}))
+          }}>주문하기</button> 
         </div>
       </div>
       <Nav variant="tabs"  defaultActiveKey="link0">
