@@ -25,7 +25,7 @@ function App() {
           <Nav className="me-auto">
             {/* navigate(-1) : 뒤로 한번 감 */}
             <Nav.Link onClick={()=>{navigate("/")}}>홈</Nav.Link>
-            <Nav.Link onClick={()=>{navigate("/detail")}}>상세페이지</Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/cart")}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

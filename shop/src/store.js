@@ -2,8 +2,16 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 let user = createSlice({ // state생성과 비슷함
     name : 'user',
-    initialState : 'kim'
+    initialState : 'kim',
+    reducers : {
+      // 1. state 수정해주는 함수 만들기
+      changeName(state){ // state: 기존 state
+        return 'john ' + state
+      }
+    } 
 })
+
+export let { changeName } = user.actions;
 
 let stock  = createSlice({
     name : 'stock',
