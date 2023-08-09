@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Nav } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "./../App.js"
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../store.js";
@@ -12,7 +12,7 @@ import { addProduct } from "../store.js";
 //   componentWillUnmount(){}
 // }
 
-function Detail(props){
+function Detail(propss){
   let {stock, shoes} = useContext(Context);
 
   let {id} = useParams();
@@ -25,6 +25,7 @@ function Detail(props){
 
   let state = useSelector( state => state ) // redux state 가져오기
   let dispatch = useDispatch();
+  let navigate = useNavigate();
 
   useEffect(()=>{
     setTimeout(()=>{setFade2('end')},100)
@@ -66,6 +67,15 @@ function Detail(props){
     }
   }, [num])
 
+  useEffect(() => {
+    let watchedItem = JSON.parse(localStorage.getItem('watched')); // localStorage에서 꺼내기
+    watchedItem.push(newShoes.id);
+
+    watchedItem = Array.from(new Set(watchedItem)); // set으로 변경 후 다시 array로 중복제거
+
+    localStorage.setItem('watched', JSON.stringify(watchedItem));
+  }, [])
+
   return(
     <div className={`container start ${fade2}`}>
       { isSale && 
@@ -83,8 +93,10 @@ function Detail(props){
           <p>{newShoes.content}</p>
           <p>{newShoes.price}원</p>
           <button className="btn btn-danger" onClick={()=>{
-            dispatch(addProduct({id : newShoes.id, name : newShoes.title, count : 1}))
-          }}>주문하기</button> 
+            dispatch(addProduct({id : newShoes.id, name : newShoes.title, count : 1}));
+            let goCart = window.confirm("상품이 장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?");
+            if(goCart) navigate("/cart");
+          }}>주문하기</button>
         </div>
       </div>
       <Nav variant="tabs"  defaultActiveKey="link0">

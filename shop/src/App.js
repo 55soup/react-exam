@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { createContext, useEffect, useState } from "react";
+import React from "react";
+import { ComponentElement,createContext, useEffect, useState } from "react";
 import { Button, Navbar, Container, Nav } from "react-bootstrap";
 import axios from "axios";
 import bg from "./img/bg.png";
@@ -7,7 +8,8 @@ import "./App.css";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from "./routes/Detail";
-import Cart from "./routes/Cart"
+import Cart from "./routes/Cart";
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 
 export let Context = createContext(); // 전역 변수 관리, 보관함
 
@@ -15,7 +17,25 @@ function App() {
   let [shoes, setShoes] = useState(data);
   let [stock, setStock] = useState([10, 11, 12]); // 재고
   let [click, setClick] = useState(0);
+  let [watched, setWatched] = useState(JSON.parse(localStorage.getItem('watched')));
   let navigate = useNavigate();
+
+  let result = useQuery(['name'], () => {
+      // useQuery로 감싸면 
+      /* 1. axios 성공/실패/로딩중 쉽게 파악가능
+       2. ajax 재요청 해줌.
+       3. 실패시 재시도 자동
+       4. state 공유 안해도됨. (props 전송)
+       5. ajax 결과 캐싱 가능 */
+      axios.get('https://condingal1.github.io/usrdata.json').then((a) => {
+          return a.data;
+        // { staleTime : 2000 } // 자동 refetch
+    })
+  })
+
+  useEffect(()=>{
+    if(!watched) localStorage.setItem('watched', JSON.stringify([])); //watched가 localStorage에 존재x => 새로 배열 생성
+  },[])
 
   return (
     <div className="App">
@@ -26,6 +46,10 @@ function App() {
             {/* navigate(-1) : 뒤로 한번 감 */}
             <Nav.Link onClick={()=>{navigate("/")}}>홈</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/cart")}}>Cart</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            {/* { result.isLoading ? "로딩중" : result.data.name} */}
+            { result.error ? "에러남" : result.data.name }
           </Nav>
         </Container>
       </Navbar>
@@ -56,7 +80,10 @@ function Shoes({shoes}){
   let navigate = useNavigate();
 
   return(
-    <div className="col-md-4" onClick={()=>{navigate(`/detail/${shoes.id}`)}}>
+    <div className="col-md-4" onClick={()=>{
+      // detail 페이지 이동시 최근 본 상품 저장.
+      navigate(`/detail/${shoes.id}`)
+    }}>
       <img src={`https://codingapple1.github.io/shop/shoes${shoes.id+1}.jpg`} width="80%" />
       <h4>{shoes.title}</h4>
       <p>{shoes.content}</p>
@@ -97,6 +124,10 @@ function Main({shoes}){
           // Promise.all( [axios.get('URL1'), axios.get('URL2')] )
         }
       }}>버튼</button>
+      <h3>최근 본 상품</h3>
+      {/* {watched.map((a)=>{
+          return <Shoes shoes={a} />
+      })} */}
       </div>
     </>
   );

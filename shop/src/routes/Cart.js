@@ -1,3 +1,4 @@
+import React from "react";
 import {Table} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeName, increase2 } from '../store/userSlice';
