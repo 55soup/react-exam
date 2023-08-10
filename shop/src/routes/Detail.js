@@ -12,7 +12,7 @@ import { addProduct } from "../store.js";
 //   componentWillUnmount(){}
 // }
 
-function Detail(propss){
+function Detail(props){
   let {stock, shoes} = useContext(Context);
 
   let {id} = useParams();
